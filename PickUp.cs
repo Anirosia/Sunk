@@ -2,36 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
+public class pickup : MonoBehaviour
 {
+    private GameObject invObj;
+    private inventoryScript invRef;
 
-    private Inventory inventory;
-    private GameObject player;
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        inventory = player.GetComponent<Inventory>();
-        Debug.Log(inventory);
+        invObj = GameObject.Find("GameManager");
+        invRef = invObj.GetComponent<inventoryScript>();
     }
 
-
-    void OnTriggerEnter(Collider other)
+    // Update is called once per frame
+    void Update()
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            for (int i = 0; i <= inventory.slots.Length; i++) //loops through the inventory checking everything.
-            {
-                if (inventory.isFull[i] == false)
-                {
-                    inventory.isFull[i] = true;
-                    inventory.slots[i] = this.gameObject;
-                    this.gameObject.SetActive(false);
-                    // or you can use destory if its a coin or something else 
-                    //Destroy(this.gameObject);
+        
+    }
 
-                    break;
-                }
-            }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "pickupable")
+        {
+            invRef.pickupItem(other.gameObject);
         }
     }
 }
